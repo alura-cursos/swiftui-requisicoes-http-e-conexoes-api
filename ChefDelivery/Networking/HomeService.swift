@@ -26,4 +26,21 @@ struct HomeService {
         
         return .success(storesObjects)
     }
+    
+    func confirmOrder(product: ProductType) async throws -> Result<[String: Any]?, RequestError> {
+        guard let url = URL(string: "https://private-665e5-matheusperez.apiary-mock.com/home") else {
+            return .failure(.invalidURL)
+        }
+        
+        let encodedObject = try JSONEncoder().encode(product)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = encodedObject
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let message = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+        
+        return .success(message)
+    }
 }
