@@ -40,7 +40,13 @@ struct ContentView: View {
                 print(error.localizedDescription)
             }
             else if let data = data {
-                print(data)
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data) as? [[String: Any]]
+                    print(json)
+                } catch {
+                    print(error.localizedDescription)
+                }
+                
             }
         }.resume()
     }
