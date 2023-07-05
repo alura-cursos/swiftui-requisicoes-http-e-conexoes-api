@@ -23,6 +23,26 @@ struct ContentView: View {
                 }
             }
         }
+        .onAppear {
+            fetchData()
+        }
+    }
+    
+    // MARK: - Methods
+    
+    func fetchData() {
+        guard let url = URL(string: "https://private-665e5-matheusperez.apiary-mock.com/questions") else {
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            else if let data = data {
+                print(data)
+            }
+        }.resume()
     }
 }
 
