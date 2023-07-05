@@ -25,7 +25,9 @@ struct ProductDetailView: View {
             
             Spacer()
             
-            ProductDetailButtonView()
+            ProductDetailButtonView {
+                print("produto clicado foi \(product.name)")
+            }
         }
     }
 }
@@ -37,13 +39,16 @@ struct ProductDetailView_Previews: PreviewProvider {
 }
 
 struct ProductDetailButtonView: View {
+    
+    var onButtonPress: () -> Void
+    
     var body: some View {
         Button {
-            print("Botão pressionado")
+            onButtonPress()
         } label: {
             HStack {
                 Image(systemName: "cart")
-                Text("Adicionar ao carrinho")
+                Text("Enviar pedido")
             }
             .padding(.horizontal, 32)
             .padding(.vertical, 16)
