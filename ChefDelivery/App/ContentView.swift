@@ -12,6 +12,7 @@ struct ContentView: View {
     // MARK: - Attributes
     
     private var service = HomeService()
+    @State private var storesType: [StoreType] = []
     
     // MARK: - View
     
@@ -31,11 +32,28 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            service.fetchData()
+            Task {
+                await getStores()
+            }
         }
     }
     
     // MARK: - Methods
+    
+    func getStores() async {
+        do {
+            let result = try await service.fetchData()
+            switch result {
+            case .success(let stores):
+                self.storesType = stores
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
     
     
 }
