@@ -12,6 +12,10 @@ struct ProductDetailView: View {
     let product: ProductType
     @State private var productQuantity = 1
     
+    @State private var showAlert = false
+    
+    @Environment(\.presentationMode) var presentationMode
+    
     var service = HomeService()
     
     var body: some View {
@@ -33,6 +37,11 @@ struct ProductDetailView: View {
                 }
             }
         }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Chef Delivery"), message: Text("Pedido enviado com sucesso"), dismissButton: .default(Text("Ok"), action: {
+                presentationMode.wrappedValue.dismiss()
+            }))
+        }
     }
     
     func confirmOrder() async {
@@ -40,12 +49,14 @@ struct ProductDetailView: View {
             let result = try await service.confirmOrder(product: product)
             switch result {
             case .success(let message):
-                print(message)
+                showAlert = true
             case .failure(let error):
                 print(error.localizedDescription)
+                showAlert = false
             }
         } catch {
             print(error.localizedDescription)
+            showAlert = false
         }
     }
 }
