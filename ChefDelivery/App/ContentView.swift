@@ -31,7 +31,7 @@ struct ContentView: View {
     // MARK: - Methods
     
     func fetchData() {
-        guard let url = URL(string: "https://private-665e5-matheusperez.apiary-mock.com/questions") else {
+        guard let url = URL(string: "https://private-665e5-matheusperez.apiary-mock.com/home") else {
             return
         }
         
