@@ -40,13 +40,8 @@ struct ContentView: View {
                 print(error.localizedDescription)
             }
             else if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data) as? [[String: Any]]
-                    print(json)
-                } catch {
-                    print(error.localizedDescription)
-                }
-                
+                let storesObjects = try? JSONDecoder().decode([StoreType].self, from: data)
+                print(storesObjects)
             }
         }.resume()
     }
